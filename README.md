@@ -28,8 +28,7 @@ Você pode compilar este projeto utilizando o compilador **C# nativo** incluído
 2. Execute o comando de compilação:
 
    ```cmd
-   C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /target:winexe /out:ThoriumLauncher.exe /win32icon:"Umbra Puprpurea.ico" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:Microsoft.VisualBasic.dll /reference:System.Core.dll Program.cs
-``
+   C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /target:winexe /out:ThoriumLauncher.exe /win32icon:"Umbra Puprpurea.ico" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:Microsoft.VisualBasic.dll /reference:System.Core.dll Program.cs``
 
 
 3. Pronto! O `ThoriumLauncher.exe` será criado.
