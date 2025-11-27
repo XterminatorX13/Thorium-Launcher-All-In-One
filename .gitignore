@@ -1,0 +1,18 @@
+# User-specific files
+launcher.ini
+Profiles/
+
+# Build artifacts
+*.exe
+*.pdb
+*.log
+build_log.txt
+compile_log.txt
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*.bak
+*.tmp
