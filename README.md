@@ -1,240 +1,232 @@
-    Thorium Launcher — All-in-One
-    =============================
+# Thorium Launcher — All-in-One
 
-    A lightweight, portable, and feature-rich launcher for Thorium Browser (and other Chromium-based browsers) written in C# (WinForms). 
-    Designed to manage multiple profiles, handle advanced flags, and provide safe login modes without needing complex installations.
+Uma launcher leve, portátil e repleta de recursos para o **Thorium Browser** (e outros navegadores baseados no Chromium), escrita em **C# (WinForms)**. Projetada para gerenciar múltiplos perfis, manipular flags avançadas e fornecer modos de login seguros sem precisar de instalações complexas.
 
-    ## Features
+## Features
 
-    ### 🚀 Profile Management
-    - **Multiple Profiles**: Create, clone, and manage unlimited isolated profiles.
-    - **Profile Manager**: View stats, **Rename**, and Delete profiles easily.
-    - **Quick Actions**: Clone existing profiles or delete them with a single click.
-    - **Portable Data**: All profiles are stored in the `Profiles/` subdirectory.
+### Profile Management
+- **Múltiplos Perfis**: Crie, clone e gerencie perfis isolados sem limite de quantidade.
+- **Gerenciador de Perfis**: Visualize estatísticas, **Renomeie** e exclua perfis facilmente.
+- **Ações Rápidas**: Clone perfis existentes ou exclua-os com um clique.
+- **Dados Portáteis**: Todos os perfis são armazenados no subdiretório `Profiles/`.
 
-    ### 🛡️ Privacy & Security Modes
-    - **Safe Mode (Login)**: Launches a temporary or persistent minimal session for Google Login.
-    - **Hardened Mode**: Automatically detects and applies your advanced flags.
-    - **Ephemeral Mode**: Launch a temporary session that deletes itself upon closing.
+### 🛡️ Modos de Privacidade e Segurança
+- **Modo Seguro (Login)**: Lança uma sessão temporária ou persistente mínima para o login do Google.
+- **Modo Reforçado**: Detecta automaticamente e aplica suas flags avançadas.
+- **Modo Efêmero**: Lança uma sessão temporária que se apaga ao ser fechada.
 
-    ### ⚙️ Advanced Configuration
-    - **Flag Editor**: Edit Chromium flags directly within the launcher.
-    - **Desktop Shortcuts**: Export your config to a `.bat` file and automatically create a Desktop shortcut with the correct icon.
-    - **Auto-Centering**: Automatically calculates and centers the browser window.
+### ⚙️ Configuração Avançada
+- **Editor de Flags**: Edite as flags do Chromium diretamente na launcher.
+- **Atalhos de Desktop**: Exporte sua configuração para um arquivo `.bat` e crie automaticamente um atalho de Desktop com o ícone correto.
+- **Auto-Centralização**: Calcula e centraliza automaticamente a janela do navegador.
 
-    ## How to Build (No SDK Required)
+## Como Compilar (Sem SDK Necessário)
 
-    You can compile this project using the native C# compiler included in Windows. No Visual Studio or .NET SDK installation is required.
+Você pode compilar este projeto utilizando o compilador **C# nativo** incluído no Windows. Não é necessário instalar o Visual Studio ou o SDK do .NET.
 
-    1. Open a Command Prompt (cmd) in the project folder.
-    2. Run the build command:
+1. Abra o **Prompt de Comando (cmd)** na pasta do projeto.
+2. Execute o comando de compilação:
 
-      ```cmd
-      C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /target:winexe /out:ThoriumLauncher.exe /win32icon:"Umbra Puprpurea.ico" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:Microsoft.VisualBasic.dll /reference:System.Core.dll Program.cs
-      ```
-
-    3. Done! The `ThoriumLauncher.exe` will be created.
-
-    ## Usage
-
-    1. **Select Executable**: Point the launcher to your `thorium.exe`.
-    2. **Choose Profile**: Select "Default" or create a new one.
-    3. **Customize Flags**: Add your flags in the text box (or leave default).
-    4. **Launch**: Click "LAUNCH" (or press Alt+L).
-
-    ## Folder Structure & Session Data
-
-    The launcher organizes all profile data in a clean, portable structure:
-
-    ```
-    thorium_all_in_one/
-    ├── ThoriumLauncher.exe          # The launcher itself
-    ├── Umbra Puprpurea.ico          # Custom icon (optional)
-    ├── launcher.ini                 # Launcher settings (exe path, last profile)
-    └── Profiles/                    # All profile data (PORTABLE!)
-        ├── thorium-profile/         # Default profile folder
-        │   ├── flags.txt            # Default profile flags
-        │   ├── Cookies              # Session cookies
-        │   ├── Login Data           # Saved passwords
-        │   ├── History              # Browsing history
-        │   ├── Local Storage/       # Website data
-        │   └── ... (all Chromium user data)
-        │
-        └── thorium-profile-NAME/    # Custom profile folder
-            ├── flags.txt            # Custom profile flags
-            └── ... (isolated session data)
-    ```
-
-    **Where are my sessions stored?**
-    - All browser data (cookies, history, passwords, cache) is stored in `Profiles/thorium-profile-[NAME]/`
-    - Each profile is completely isolated with its own session data
-    - The `flags.txt` file inside each profile folder contains the command-line flags
-    - You can backup entire profiles by copying their folders
-
-    **Portability:**
-    - The entire `Profiles/` folder can be moved to another computer
-    - Just copy the folder and update the executable path in the launcher
-
-    ## Exporting Profiles
-
-    When you click **"Export"**, the launcher saves a `.bat` file and offers to create shortcuts:
-
-    ### Export Options:
-    - **Yes** = Creates a **direct .lnk shortcut** (recommended!)
-      - Points directly to `thorium.exe` with ALL flags in the Arguments field
-      - Bypasses the 260-character Windows GUI limit
-      - Supports up to **4096 characters** of flags programmatically
-      - **Can be pinned to taskbar** without losing your settings!
-      - File created: `Thorium - [ProfileName].lnk` on Desktop
-
-    - **No** = Skip shortcuts (only saves the .bat file)
-
-    - **Cancel** = Creates BOTH shortcuts:
-      - Direct .lnk (for taskbar pinning)
-      - .bat shortcut (for backward compatibility)
-
-    ### Why the direct .lnk is better:
-    ✅ **Taskbar pinning works!** Windows won't strip your flags  
-    ✅ No CMD window flash (runs silently)  
-    ✅ Supports very long flag lists (thousands of characters)  
-    ✅ Custom icon support  
-    ✅ Works exactly like a native Windows shortcut  
-
-    **Note:** The `.bat` file is still useful for scripting or if you prefer batch files, but the `.lnk` shortcut is the best option for daily use and taskbar pinning.
-
-    ## Native Thorium Profile Integration (NEW!)
-
-    The launcher now **automatically detects** existing Thorium profiles in your browser's installation folder!
-
-    ### How it works:
-    1. **Auto-detection**: When you select a Thorium executable, the launcher scans the `User Data` folder
-    2. **Native profiles appear**: Profiles from Thorium (like "Profile 1", "Profile 2", "Default") show up in the dropdown with a **[Native]** prefix
-    3. **Add flags**: You can add custom flags to any native profile - they'll be saved in `User Data/[ProfileName]/flags.txt`
-    4. **Seamless integration**: Launch native profiles with your custom flags, or use them as-is
-
-    ### Example:
-    ```
-    Dropdown shows:
-    - Default                    ← Launcher-managed profile
-    - MyCustomProfile            ← Launcher-managed profile
-    - [Native] Default           ← Thorium's native default profile
-    - [Native] Profile 1         ← Thorium's native "Profile 1"
-    - [Native] Profile 2         ← Thorium's native "Profile 2"
-    ```
-
-    ### Benefits:
-    ✅ **No migration needed** - Use your existing Thorium profiles immediately  
-    ✅ **Add flags to existing profiles** - Enhance native profiles with custom flags  
-    ✅ **Unified management** - Manage both launcher and native profiles in one place  
-    ✅ **Preserve browser data** - Keep all your cookies, history, and settings  
-
-    **Note:** Native profiles are located in `[ThoriumDir]/User Data/[ProfileName]/` and are marked with `[Native]` to distinguish them from launcher-managed profiles in `Profiles/thorium-profile-[NAME]/`.
-
-    ### How Native Profile Flags Work:
-
-    **📝 When you select a native profile:**
-    - If it has NO `flags.txt` file → Shows default flags as a starting template (not saved yet)
-    - If it HAS `flags.txt` → Shows the saved flags from that file
-
-    **💾 When you click "Save":**
-    - Your flags are saved to: `User Data\[ProfileName]\flags.txt`
-    - These flags will ALWAYS be used when launching this profile
-
-    **🚀 When you click "Launch":**
-    - Launcher reads the `flags.txt` (if it exists)
-    - Builds command: `thorium.exe --user-data-dir="User Data\ProfileName" [your flags]`
-    - Thorium opens with ALL profile data (cookies, passwords, history) + your custom flags
-
-    **⚡ IMPORTANT - Flags Apply to the ENTIRE Thorium Instance:**
-    When you launch `[Native] Default` with custom flags, those flags are applied to the **entire Thorium process**, not just one subprofile. This means:
-    
-    - If you have multiple browser profiles inside Thorium (like "Dallian", "Dalliance Support", "Personal", etc.)
-    - ALL of them will use the same flags you set in `[Native] Default`
-    - The flags affect the browser engine itself, not individual profiles
-    
-    **Example:**
-    ```
-    1. Select [Native] Default
-    2. Add flag: --enable-features=VaapiVideoDecoder (hardware video acceleration)
-    3. Save and Launch
-    4. Thorium opens → You see the profile picker (Dallian, Personal, etc.)
-    5. Choose ANY profile → ALL of them now have hardware acceleration! 🚀
-    ```
-
-    **💡 Think of it like this:**
-    - **Launcher profiles** (`Default`, `MyProfile`) = Completely separate Thorium instances with their own flags
-    - **Native profiles** (`[Native] Default`, `[Native] Profile 1`) = Your existing Thorium setup + custom flags applied to the whole browser
-    - **Thorium's internal profiles** (Dallian, Personal, etc.) = Share the same flags from their parent native profile
-
-    **Use cases:**
-    - `[Native] Default` → Add performance flags to ALL your personal profiles (Dallian, etc.)
-    - `[Native] Profile 1` → Separate work environment with different flags
-    - `Default` (launcher) → Clean testing profile with its own flags
-
-    Your browsing data stays untouched, but now you can supercharge your entire Thorium instance with custom flags!
+   ```cmd
+   C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /target:winexe /out:ThoriumLauncher.exe /win32icon:"Umbra Puprpurea.ico" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:Microsoft.VisualBasic.dll /reference:System.Core.dll Program.cs
+``
 
 
-    ## Requirements
-    - Windows 10/11
-    - .NET Framework 4.7.2 (pre-installed on most Windows systems)
+3. Pronto! O `ThoriumLauncher.exe` será criado.
 
+## Uso
 
-    ## FAQ
+1. **Selecionar Executável**: Aponte a launcher para o seu `thorium.exe`.
+2. **Escolher Perfil**: Selecione "Padrão" ou crie um novo.
+3. **Personalizar Flags**: Adicione suas flags na caixa de texto (ou deixe as padrão).
+4. **Lançar**: Clique em "LAUNCH" (ou pressione **Alt+L**).
 
-    ### Q: Do command-line flags appear as "Enabled" in chrome://flags?
-    **A:** No. Flags passed via command line (like in .bat files or shortcuts) do NOT appear as "Enabled" in the chrome://flags interface. That interface only controls preferences saved in the browser's `Local State` file.
+## Estrutura de Pastas & Dados de Sessão
 
-    To verify if your flags are active, visit **chrome://version** and check the "Command Line" section. If your flags appear there, they are working.
+A launcher organiza todos os dados de perfil em uma estrutura limpa e portátil:
 
-    ### Q: Why does my browser look "default" even with flags?
-    **A:** If the browser appears standard, it's because visual customization flags may not be present or the Thorium version changed behavior. Always verify active flags at **chrome://version**.
+```
+thorium_all_in_one/
+├── ThoriumLauncher.exe          # A própria launcher
+├── Umbra Puprpurea.ico          # Ícone customizado (opcional)
+├── launcher.ini                 # Configurações da launcher (caminho do exe, último perfil)
+└── Profiles/                    # Todos os dados de perfil (PORTÁVEL!)
+    ├── thorium-profile/         # Pasta do perfil padrão
+    │   ├── flags.txt            # Flags do perfil padrão
+    │   ├── Cookies              # Cookies da sessão
+    │   ├── Login Data           # Senhas salvas
+    │   ├── History              # Histórico de navegação
+    │   ├── Local Storage/       # Dados de sites
+    │   └── ... (todos os dados do usuário do Chromium)
+    │
+    └── thorium-profile-NAME/    # Pasta do perfil personalizado
+        ├── flags.txt            # Flags do perfil personalizado
+        └── ... (dados de sessão isolados)
+```
 
-    ### Q: Why doesn't the exported .bat file close automatically?
-    **A:** This has been fixed in the latest version. The generated .bat now includes an `exit` command to close the CMD window automatically after launching the browser.
+**Onde estão meus dados de sessão?**
 
-    ### Q: Why isn't my browser window centered?
-    **A:** The default "Hardened" profile uses `--start-maximized` instead of `--window-position`. If you want a centered window:
-    - Add `--window-position=X,Y` manually to your flags, OR
-    - Use the "Test Run" button → "Login Ephemeral: No" which automatically calculates centered positioning.
+* Todos os dados do navegador (cookies, histórico, senhas, cache) são armazenados em `Profiles/thorium-profile-[NAME]/`
+* Cada perfil é completamente isolado, com seus próprios dados de sessão.
+* O arquivo `flags.txt` dentro de cada pasta de perfil contém as flags de linha de comando.
+* Você pode fazer backup de perfis inteiros copiando suas pastas.
 
-    ### Q: Why can't I login to Google with the default profile?
-    **A:** The default "Hardened" profile contains privacy-focused flags like `--disable-background-networking` and anti-fingerprinting options that intentionally block Google login for privacy.
+**Portabilidade:**
 
-    **Solution:** Create a new "Standard" profile without these hardening flags if you need Google account access.
+* Toda a pasta `Profiles/` pode ser movida para outro computador.
+* Basta copiar a pasta e atualizar o caminho do executável na launcher.
 
-    ### Q: Are flags compatible across different Chromium browsers (Thorium, Ungoogled, etc.)?
-    **A:** Flags depend on the Chromium version and specific fork. Each browser may support different flags, always check chrome://flags to see if the flag is supported or deprecated. Deprecated flags are simply ignored by the browser.
+## Exportando Perfis
 
-    ### Q: If I add flags to a native profile, will they be saved permanently?
-    **A:** Yes! When you select a native profile (marked with `[Native]` prefix) and save flags, they are written to a `flags.txt` file inside that profile's folder. Every time you launch that profile through the launcher, those flags will be applied automatically.
+Ao clicar em **"Exportar"**, a launcher salva um arquivo `.bat` e oferece a opção de criar atalhos:
 
-    **Example:**
-    1. Select `[Native] Profile 1`
-    2. Edit flags and click "Save" → Creates `User Data\Profile 1\flags.txt`
-    3. Click "Launch" → Thorium opens with Profile 1's data + your custom flags
-    4. Next time you launch → Same flags are used automatically!
+### Opções de Exportação:
 
-    **Important:** Your browsing data (cookies, passwords, history) is never touched. The launcher only adds performance/privacy flags on top of your existing profile.
+* **Sim** = Cria um atalho **direto .lnk** (recomendado!)
 
-    ### Q: How do I pin the launcher/shortcut to the Windows taskbar?
-    **A:** When you export a .bat file, the launcher now offers to create a **direct .lnk shortcut** that solves the pinning problem!
+  * Aponta diretamente para `thorium.exe` com TODAS as flags no campo de Argumentos
+  * Contorna o limite de 260 caracteres do Windows para a GUI
+  * Suporta até **4096 caracteres** de flags programaticamente
+  * **Pode ser fixado na barra de tarefas** sem perder suas configurações!
+  * Arquivo criado: `Thorium - [ProfileName].lnk` na área de trabalho
 
-    **The Problem:** When you pin a .bat shortcut to the taskbar, Windows creates a NEW shortcut pointing directly to `thorium.exe` WITHOUT your custom flags. This means your preferences won't load.
+* **Não** = Pula a criação de atalhos (salva apenas o arquivo .bat)
 
-    **The Solution (NEW!):** 
-    When exporting, choose **"Yes"** or **"Cancel"** to create a direct `.lnk` shortcut that:
-    - Points directly to `thorium.exe` with ALL your flags as arguments
-    - Bypasses the 260-character Windows GUI limit (supports up to 4096 characters programmatically)
-    - **CAN be pinned to the taskbar** and will keep ALL your preferences!
-    - Named "Thorium - [ProfileName].lnk" on your Desktop
+* **Cancelar** = Cria AMBOS os atalhos:
 
-    **Options when exporting:**
-    - **Yes** = Create direct .lnk shortcut (recommended - can be pinned!)
-    - **No** = Skip shortcuts
-    - **Cancel** = Create BOTH .lnk AND .bat shortcuts
+  * Atalho direto .lnk (para fixação na barra de tarefas)
+  * Atalho .bat (para compatibilidade com versões anteriores)
 
-    **Alternative Solutions:**
-    1. **Pin the Launcher itself**: Right-click `ThoriumLauncher.exe` → "Pin to taskbar" (then use it to launch your profiles)
-    2. **Manual taskbar method**: Copy the .lnk shortcut to `%AppData%\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar`
+### Por que o atalho direto .lnk é melhor:
 
-    **Note:** The direct .lnk shortcut is the best option for taskbar pinning while keeping all your custom flags!
+✅ **Fixação na barra de tarefas funciona!** O Windows não remove suas flags
+✅ Sem janela do CMD (executa silenciosamente)
+✅ Suporta listas de flags muito longas (milhares de caracteres)
+✅ Suporte a ícones personalizados
+✅ Funciona exatamente como um atalho nativo do Windows
+
+**Nota:** O arquivo `.bat` ainda é útil para automação ou se você preferir arquivos em batch, mas o atalho `.lnk` é a melhor opção para o uso diário e fixação na barra de tarefas.
+
+## Integração Nativa de Perfil Thorium (NOVO!)
+
+Agora a launcher **detecta automaticamente** perfis existentes do Thorium na pasta de instalação do navegador!
+
+### Como funciona:
+
+1. **Detecção Automática**: Ao selecionar um executável do Thorium, a launcher escaneia a pasta `User Data`
+2. **Perfis Nativos Aparecem**: Perfis do Thorium (como "Profile 1", "Profile 2", "Default") aparecem no dropdown com o prefixo **[Native]**
+3. **Adicionar Flags**: Você pode adicionar flags personalizadas a qualquer perfil nativo - elas serão salvas em `User Data/[ProfileName]/flags.txt`
+4. **Integração Transparente**: Lançar perfis nativos com suas flags personalizadas ou usá-los como estão.
+
+### Exemplo:
+
+```
+Dropdown mostra:
+- Default                    ← Perfil gerenciado pela launcher
+- MyCustomProfile            ← Perfil gerenciado pela launcher
+- [Native] Default           ← Perfil nativo do Thorium
+- [Native] Profile 1         ← Perfil nativo do Thorium
+- [Native] Profile 2         ← Perfil nativo do Thorium
+```
+
+### Benefícios:
+
+✅ **Sem necessidade de migração** - Use seus perfis existentes do Thorium imediatamente
+✅ **Adicione flags aos perfis existentes** - Melhore perfis nativos com flags personalizadas
+✅ **Gerenciamento unificado** - Gerencie tanto perfis da launcher quanto nativos em um só lugar
+✅ **Preserve os dados do navegador** - Mantenha todos os seus cookies, histórico e configurações
+
+**Nota:** Perfis nativos estão localizados em `[ThoriumDir]/User Data/[ProfileName]/` e são marcados com o prefixo `[Native]` para distingui-los dos perfis gerenciados pela launcher em `Profiles/thorium-profile-[NAME]/`.
+
+## FAQ
+
+### Q: As flags de linha de comando aparecem como "Ativadas" em `chrome://flags`?
+
+**A:** Não. As flags passadas via linha de comando (como em arquivos .bat ou atalhos) NÃO aparecem como "Ativadas" na interface `chrome://flags`. Essa interface só controla preferências salvas no arquivo `Local State` do navegador.
+
+Para verificar se suas flags estão ativas, acesse **chrome://version** e confira a seção "Command Line". Se suas flags aparecerem lá, elas estão funcionando.
+
+### Q: Por que meu navegador parece "padrão" mesmo com as flags ativadas?
+
+**A:** Se o navegador parecer padrão, é porque as flags de personalização visual podem não estar presentes ou a versão do Thorium alterou seu comportamento. Sempre verifique as flags ativas em **chrome://version**.
+
+### Q: Por que o arquivo .bat exportado não fecha automaticamente?
+
+**A:** Isso foi corrigido na versão mais recente. O arquivo .bat gerado agora inclui um comando `exit` para fechar a janela CMD automaticamente após iniciar o navegador.
+
+### Q: Como fixar a launcher/atalho na barra de tarefas do Windows?
+
+**A:** Quando você exporta um arquivo .bat, a launcher agora oferece a opção de criar um
+### Q: Como fixar a launcher/atalho na barra de tarefas do Windows?
+**A:** Quando você exporta um arquivo .bat, a launcher agora oferece a opção de criar um atalho **direto .lnk** que resolve o problema de fixação!
+
+**O Problema:** Quando você fixa um atalho .bat na barra de tarefas, o Windows cria um NOVO atalho que aponta diretamente para `thorium.exe` SEM suas flags personalizadas. Isso significa que suas preferências não serão carregadas.
+
+**A Solução (NOVO!):**
+Ao exportar, escolha **"Sim"** ou **"Cancelar"** para criar um atalho direto `.lnk` que:
+- Aponta diretamente para `thorium.exe` com TODAS as suas flags como argumentos
+- Contorna o limite de 260 caracteres do Windows para a GUI (suporta até 4096 caracteres programaticamente)
+- **PODERÁ ser fixado na barra de tarefas** e manterá TODAS as suas preferências!
+- Nome do arquivo: `Thorium - [ProfileName].lnk` na sua Área de Trabalho
+
+**Opções ao exportar:**
+- **Sim** = Cria o atalho direto .lnk (recomendado - pode ser fixado!)
+- **Não** = Pula a criação de atalhos (salva apenas o arquivo .bat)
+- **Cancelar** = Cria AMBOS os atalhos: .lnk e .bat
+
+**Soluções alternativas:**
+1. **Fixar a própria Launcher**: Clique com o botão direito em `ThoriumLauncher.exe` → "Fixar na barra de tarefas" (e use-a para iniciar seus perfis)
+2. **Método manual de fixação**: Copie o atalho .lnk para `%AppData%\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar`
+
+**Nota:** O atalho direto .lnk é a melhor opção para fixação na barra de tarefas mantendo todas as suas flags personalizadas!
+
+---
+
+## Requisitos
+- **Windows 10/11**
+- **.NET Framework 4.7.2** (pré-instalado na maioria dos sistemas Windows)
+
+---
+
+## FAQ
+
+### Q: As flags de linha de comando aparecem como "Ativadas" em `chrome://flags`?
+**A:** Não. As flags passadas via linha de comando (como em arquivos .bat ou atalhos) **não aparecem** como "Ativadas" na interface `chrome://flags`. Essa interface só controla preferências salvas no arquivo `Local State` do navegador.
+
+Para verificar se suas flags estão ativas, acesse **chrome://version** e confira a seção "Command Line". Se suas flags aparecerem lá, elas estão funcionando.
+
+### Q: Por que meu navegador parece "padrão" mesmo com as flags ativadas?
+**A:** Se o navegador parecer padrão, é porque as flags de personalização visual podem não estar presentes ou a versão do Thorium alterou seu comportamento. Sempre verifique as flags ativas em **chrome://version**.
+
+### Q: Por que o arquivo .bat exportado não fecha automaticamente?
+**A:** Isso foi corrigido na versão mais recente. O arquivo .bat gerado agora inclui um comando `exit` para fechar a janela CMD automaticamente após iniciar o navegador.
+
+### Q: Por que minha janela do navegador não está centralizada?
+**A:** O perfil padrão "Hardened" usa `--start-maximized` em vez de `--window-position`. Se você quiser uma janela centralizada:
+- Adicione manualmente `--window-position=X,Y` às suas flags, ou
+- Use o botão "Testar Execução" → "Login Efêmero: Não", que calcula automaticamente a posição central.
+
+### Q: Por que não consigo fazer login no Google com o perfil padrão?
+**A:** O perfil padrão "Hardened" contém flags focadas em privacidade, como `--disable-background-networking` e opções anti-fingerprint, que intencionalmente bloqueiam o login do Google.
+
+**Solução:** Crie um novo perfil "Padrão" sem essas flags de segurança, caso precise de acesso à conta Google.
+
+### Q: As flags são compatíveis entre diferentes navegadores Chromium (Thorium, Ungoogled, etc.)?
+**A:** As flags dependem da versão do Chromium e da versão específica do fork. Cada navegador pode suportar flags diferentes, então sempre verifique em `chrome://flags` se a flag é suportada ou descontinuada. As flags descontinuadas simplesmente serão ignoradas pelo navegador.
+
+### Q: Se eu adicionar flags a um perfil nativo, elas serão salvas permanentemente?
+**A:** Sim! Quando você seleciona um perfil nativo (marcado com o prefixo `[Native]`) e salva flags, elas são gravadas em um arquivo `flags.txt` dentro da pasta desse perfil. Sempre que você iniciar esse perfil pela launcher, as flags serão aplicadas automaticamente.
+
+**Exemplo:**
+1. Selecione `[Native] Profile 1`
+2. Edite as flags e clique em "Salvar" → Cria o arquivo `User Data\Profile 1\flags.txt`
+3. Clique em "Lançar" → O Thorium abre com os dados do Perfil 1 + suas flags personalizadas
+4. Na próxima vez que lançar → As mesmas flags serão aplicadas automaticamente!
+
+**Importante:** Seus dados de navegação (cookies, senhas, histórico) nunca são alterados. A launcher apenas adiciona as flags de desempenho/privacidade em cima do seu perfil existente.
+
+---
+
+## License
+
+Este projeto é licenciado sob a [MIT License](LICENSE).
