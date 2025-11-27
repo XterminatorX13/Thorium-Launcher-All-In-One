@@ -100,9 +100,13 @@ Ao clicar em **"Exportar"**, a launcher salva um arquivo `.bat` e oferece a opç
 ### Por que o atalho direto .lnk é melhor:
 
 ✅ **Fixação na barra de tarefas funciona!** O Windows não remove suas flags
+
 ✅ Sem janela do CMD (executa silenciosamente)
+
 ✅ Suporta listas de flags muito longas (milhares de caracteres)
+
 ✅ Suporte a ícones personalizados
+
 ✅ Funciona exatamente como um atalho nativo do Windows
 
 **Nota:** O arquivo `.bat` ainda é útil para automação ou se você preferir arquivos em batch, mas o atalho `.lnk` é a melhor opção para o uso diário e fixação na barra de tarefas.
